@@ -408,6 +408,7 @@ impl CpuFrequency {
 			//.or_else(|_e| self.detect_from_cmdline())
 			.or_else(|_e| self.detect_from_cpuid_brand_string(&cpuid))
 			.or_else(|_e| self.measure_frequency())
+			.or_else(|_e| self.set_detected_cpu_frequency(3500, CpuFrequencySources::CommandLine))
 			.expect("Could not determine the processor frequency");
 	}
 
