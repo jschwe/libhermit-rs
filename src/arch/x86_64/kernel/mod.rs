@@ -295,11 +295,15 @@ pub fn boot_processor_init() {
 	gdt::add_current_core();
 	idt::install();
 	pic::init();
-
+	print!("Before irq::install");
 	irq::install();
+	print!("Before detect_frequency()");
 	processor::detect_frequency();
+	print!("Before print_information");
 	processor::print_information();
+	print!("Before systemtime::init()");
 	systemtime::init();
+	print!("environment::is_single_kernel()");
 
 	if environment::is_single_kernel() {
 		if is_uhyve_with_pci() || !is_uhyve() {
@@ -313,11 +317,12 @@ pub fn boot_processor_init() {
 			acpi::init();
 		}
 	}
-
+	print!("apic::init()");
 	apic::init();
 	scheduler::install_timer_handler();
 	finish_processor_init();
 	irq::enable();
+	print!("After irq::enable()");
 }
 
 /// Boots all available Application Processors on bare-metal or QEMU.
