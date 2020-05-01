@@ -298,9 +298,10 @@ impl CpuFrequency {
 		let brand_string = extended_function_info
 			.processor_brand_string()
 			.expect("CPUID Brand String not available!");
-
+		println!("Brand String found: {}", brand_string);
 		let ghz_find = brand_string.find("GHz");
 		if ghz_find.is_some() {
+			println!("GHz in Brand String found");
 			let index = ghz_find.unwrap() - 4;
 			let thousand_char = brand_string.chars().nth(index).unwrap();
 			let decimal_char = brand_string.chars().nth(index + 1).unwrap();
@@ -346,8 +347,10 @@ impl CpuFrequency {
 
 	#[cfg(not(test))]
 	fn measure_frequency(&mut self) -> Result<(), ()> {
+		println!("Entering measure_frequency");
 		// The PIC is not initialized for uhyve, so we cannot measure anything.
 		if environment::is_uhyve() {
+			println!("Exiting measure_frequency with Err since we are on uhyve");
 			return Err(());
 		}
 
