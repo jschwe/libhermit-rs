@@ -261,6 +261,7 @@ impl CpuFrequency {
 	}
 
 	unsafe fn detect_from_cpuid(&mut self, cpuid: &CpuId) -> Result<(), ()> {
+		println!("Entering detect_from_cpuid()");
 		let processor_frequency_info = cpuid.get_processor_frequency_info();
 
 		match processor_frequency_info {
@@ -273,6 +274,7 @@ impl CpuFrequency {
 	}
 
 	unsafe fn detect_from_cpid_tsc_info(&mut self, cpuid: &CpuId) -> Result<(), ()> {
+		println!("Entering detect_from_cpid_tsc_info");
 		match cpuid.get_tsc_info() {
 			Some(tsc_info) => {
 				// check if tsc_info provides a correct value
@@ -289,6 +291,7 @@ impl CpuFrequency {
 	}
 
 	unsafe fn detect_from_cpuid_brand_string(&mut self, cpuid: &CpuId) -> Result<(), ()> {
+		println!("Entering detect_from_cpuid_brand_string");
 		let extended_function_info = cpuid
 			.get_extended_function_info()
 			.expect("CPUID Extended Function Info not available!");
@@ -319,7 +322,9 @@ impl CpuFrequency {
 	}
 
 	unsafe fn detect_from_hypervisor(&mut self) -> Result<(), ()> {
+		println!("Entering detect_from_hypervisor");
 		let cpu_freq = intrinsics::volatile_load(&(*BOOT_INFO).cpu_freq);
+		println!("Hypervisor detected freq of {} Mhz", cpu_freq as u16);
 		self.set_detected_cpu_frequency(cpu_freq as u16, CpuFrequencySources::Hypervisor)
 	}
 
@@ -407,6 +412,7 @@ impl CpuFrequency {
 
 	unsafe fn detect(&mut self) {
 		let cpuid = CpuId::new();
+		println!("Detecting CPU frequency");
 		self.detect_from_cpuid(&cpuid)
 			.or_else(|_e| self.detect_from_cpid_tsc_info(&cpuid))
 			.or_else(|_e| self.detect_from_hypervisor())
@@ -414,6 +420,7 @@ impl CpuFrequency {
 			.or_else(|_e| self.detect_from_cpuid_brand_string(&cpuid))
 			.or_else(|_e| self.measure_frequency())
 			.expect("Could not determine the processor frequency");
+		println!("Finished detecting CPU frequency!");
 	}
 
 	fn get(&self) -> u16 {
