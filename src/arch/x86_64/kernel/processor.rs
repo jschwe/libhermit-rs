@@ -287,12 +287,16 @@ impl CpuFrequency {
 
 	unsafe fn detect_from_cpuid_hypervisor_info(&mut self, cpuid: &CpuId) -> Result<(), ()> {
 		if let Some(hypervisor_info) = cpuid.get_hypervisor_info() {
+			println!("cpuid.get_hypervisor_info() was Some");
 			if let Some(freq) = hypervisor_info.tsc_frequency() {
 				let mhz = (freq / 1000000u32) as u16;
+				println!("Detected {} MHz from CPUID hypervisor info", mhz);
 				return self
 					.set_detected_cpu_frequency(mhz, CpuFrequencySources::HypervisorTscInfo);
 			}
+			println!("hypervisor_info.tsc_frequency() was None");
 		}
+		println!("cpuid.get_hypervisor_info() was None");
 
 		Err(())
 	}
@@ -352,6 +356,7 @@ impl CpuFrequency {
 	fn measure_frequency(&mut self) -> Result<(), ()> {
 		// The PIC is not initialized for uhyve, so we cannot measure anything.
 		if environment::is_uhyve() {
+			println!("Measuring frequency on Uhyve is not possible. Returning error");
 			return Err(());
 		}
 
@@ -416,6 +421,7 @@ impl CpuFrequency {
 
 	unsafe fn detect(&mut self) {
 		let mut cpuid = CpuId::new();
+		println!("Detecting CPU Frequency");
 		self.detect_from_cpuid(&cpuid)
 			.or_else(|_e| self.detect_from_cpuid_tsc_info(&mut cpuid))
 			.or_else(|_e| self.detect_from_cpuid_hypervisor_info(&mut cpuid))
