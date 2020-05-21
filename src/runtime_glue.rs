@@ -50,6 +50,9 @@ fn rust_oom(layout: Layout) -> ! {
 		layout.size()
 	);
 
+	if run_on_hypervisor() {
+		__sys_shutdown(1);
+	}
 	loop {
 		arch::processor::halt();
 	}
