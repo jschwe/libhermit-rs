@@ -94,6 +94,10 @@ use mm::allocator::LockedHeap;
 #[global_allocator]
 static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
+extern {
+	fn sys_minicov_init();
+}
+
 /// Interface to allocate memory from system heap
 #[cfg(not(test))]
 pub fn __sys_malloc(size: usize, align: usize) -> *mut u8 {
@@ -198,7 +202,7 @@ extern "C" fn initd(_arg: usize) {
 
 	// give the IP thread time to initialize the network interface
 	core_scheduler().reschedule();
-
+	unsafe { sys_minicov_init(); }
 	unsafe {
 		// And finally start the application.
 		runtime_entry(argc, argv, environ);

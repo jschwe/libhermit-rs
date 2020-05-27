@@ -277,6 +277,21 @@ pub fn output_message_byte(byte: u8) {
 	}
 }
 
+// unsafe fn run_static_constructors()  //from https://github.com/Amanieu/minicov/blob/master/minicov/src/lib.rs
+// {
+// 	extern "C" {
+// 		static mut __init_array_start: [extern "C" fn(); 0];
+// 		static mut __init_array_end: [extern "C" fn(); 0];
+// 	}
+//
+// 	let mut ptr = __init_array_start.as_ptr();
+// 	let end = __init_array_end.as_ptr();
+// 	while ptr != end {
+// 		(*ptr)();
+// 		ptr = ptr.add(1);
+// 	}
+// }
+
 /// Real Boot Processor initialization as soon as we have put the first Welcome message on the screen.
 #[cfg(not(test))]
 pub fn boot_processor_init() {
@@ -295,6 +310,9 @@ pub fn boot_processor_init() {
 	gdt::add_current_core();
 	idt::install();
 	pic::init();
+
+	//ToDO: Test - Note this should only be enabled for code coverage
+	// unsafe { run_static_constructors(); }
 
 	irq::install();
 	processor::detect_frequency();
