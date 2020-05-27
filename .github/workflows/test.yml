@@ -101,14 +101,40 @@ jobs:
       - name: Test dev version (smp)
         run:
           qemu-system-x86_64 -display none -smp 2 -m 64M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/debug/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr,rdrand
+        timeout-minutes: 20
+      - name: Rerun dev version (smp) with debug output on failure
+        if: failure()
+        env: 
+          HERMIT_LOG_LEVEL_FILTER: Debug
+        run: |
+          cargo build -Z build-std=std,core,alloc,panic_abort --target x86_64-unknown-hermit
+          qemu-system-x86_64 -display none -smp 2 -m 64M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/debug/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr,rdrand > dev_smp_debug.log
         timeout-minutes: 20  
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: dev_smp_failure_log
+          path: dev_smp_debug.log    
       - name: Test release version
         run:
           qemu-system-x86_64 -display none -smp 1 -m 64M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/release/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr,rdrand
       - name: Test release version (smp)
         run:
           qemu-system-x86_64 -display none -smp 2 -m 64M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/release/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr,rdrand
+        timeout-minutes: 20
+      - name: Rerun dev version (smp) with debug output on failure
+        if: failure()
+        env: 
+          HERMIT_LOG_LEVEL_FILTER: Debug
+        run: |
+          cargo build -Z build-std=std,core,alloc,panic_abort --target x86_64-unknown-hermit --release
+          qemu-system-x86_64 -display none -smp 2 -m 64M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/debug/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr,rdrand > release_smp_debug.log
         timeout-minutes: 20  
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: release_smp_failure_log
+          path: release_smp_debug.log   
 
 
 
