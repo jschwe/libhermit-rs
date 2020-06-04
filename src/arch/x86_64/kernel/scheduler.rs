@@ -323,10 +323,10 @@ impl Clone for TaskTLS {
 	}
 }
 
-#[cfg(test)]
+#[cfg(not(target_os = "hermit"))]
 extern "C" fn task_entry(func: extern "C" fn(usize), arg: usize) {}
 
-#[cfg(not(test))]
+#[cfg(target_os = "hermit")]
 #[inline(never)]
 #[naked]
 extern "C" fn task_entry(func: extern "C" fn(usize), arg: usize) -> ! {

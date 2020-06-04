@@ -63,7 +63,7 @@ pub use crate::arch::x86_64::kernel::scheduler;
 pub use crate::arch::x86_64::kernel::switch::switch;
 #[cfg(target_arch = "x86_64")]
 pub use crate::arch::x86_64::kernel::systemtime::get_boot_time;
-#[cfg(not(test))]
+#[cfg(target_os = "hermit")]
 #[cfg(target_arch = "x86_64")]
 pub use crate::arch::x86_64::kernel::{
 	application_processor_init, boot_application_processors, boot_processor_init,
