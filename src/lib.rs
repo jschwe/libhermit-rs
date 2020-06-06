@@ -26,6 +26,7 @@
 #![feature(allocator_api)]
 #![feature(const_btree_new)]
 #![feature(const_fn)]
+#![feature(custom_test_frameworks)]
 #![feature(lang_items)]
 #![feature(linkage)]
 #![feature(llvm_asm)]
@@ -35,6 +36,9 @@
 #![feature(core_intrinsics)]
 #![feature(alloc_error_handler)]
 #![allow(unused_macros)]
+#![test_runner(crate::test_runner)]
+#![reexport_test_harness_main = "test_main"]
+#![cfg_attr(test, no_main)]
 #![no_std]
 
 // EXTERNAL CRATES
@@ -58,6 +62,7 @@ extern crate x86;
 
 use alloc::alloc::Layout;
 use core::alloc::GlobalAlloc;
+use core::panic::PanicInfo;
 
 use arch::percore::*;
 use mm::allocator::LockedHeap;
@@ -89,6 +94,26 @@ mod scheduler;
 mod synch;
 mod syscalls;
 mod util;
+
+#[doc(hidden)]
+pub fn _print(args: ::core::fmt::Arguments) {
+	use core::fmt::Write;
+	crate::console::CONSOLE.lock().write_fmt(args).unwrap();
+}
+
+pub fn test_runner(tests: &[&dyn Fn()]) {
+	println!("Running {} tests", tests.len());
+	for test in tests {
+		test();
+	}
+	sys_exit(0);
+}
+
+pub fn test_panic_handler(info: &PanicInfo) -> ! {
+	println!("[failed]\n");
+	println!("Error: {}\n", info);
+	sys_exit(-1);
+}
 
 #[cfg(target_os = "hermit")]
 #[global_allocator]
