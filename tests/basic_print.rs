@@ -11,12 +11,17 @@ use hermit::{print, println};
 //ToDO: Find out how the runtime_entry function works
 // and why it works in rusty-demo without being defined (maybe part of std?)
 
+#[no_mangle]
+extern "C"
+	fn runtime_entry(argc: i32, argv: *const *const u8, env: *const *const u8) -> ! {
+		main(argc as isize, argv);
+		hermit::sys_exit(-1);
+}
+
 
 //#[test_case]
-#[no_mangle]
 pub fn main(argc: isize, argv: *const *const u8) {
 	println!("hey we made it to the test function :O");
-	hermit::sys_exit(-1);
 }
 
 // #[panic_handler]
