@@ -2,4 +2,4 @@
 #runner = "uhyve -v"
 
 [target.x86_64-unknown-hermit-kernel]
-runner = "tests\\hermit_test_runner.py"
+runner = "tests/hermit_test_runner.py"

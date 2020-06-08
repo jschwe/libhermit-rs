@@ -8,9 +8,10 @@
 extern crate hermit;
 use hermit::{print, println};
 
-//ToDO: Find out how the runtime_entry function works
-// and why it works in rusty-demo without being defined (maybe part of std?)
+//ToDo: Define exit code enum in hermit!!!
 
+// Workaround since the "real" runtime_entry function (defined in libstd) is not available,
+// since the target-os is hermit-kernel and not hermit
 #[no_mangle]
 extern "C"
 	fn runtime_entry(argc: i32, argv: *const *const u8, env: *const *const u8) -> ! {

@@ -28,6 +28,10 @@ travis-ci = { repository = "hermitcore/libhermit-rs" }
 name = "basic_print"
 harness = false
 
+[[test]]
+name = "basic_math"
+harness = false
+
 [features]
 default = ["pci", "acpi"]
 vga = []
