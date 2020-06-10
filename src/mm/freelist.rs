@@ -226,6 +226,7 @@ impl FreeList {
 	}
 }
 
+#[cfg(not(target_os = "hermit"))]
 #[test]
 fn add_element() {
 	let mut freelist = FreeList::new();
@@ -242,6 +243,7 @@ fn add_element() {
 	}
 }
 
+#[cfg(not(target_os = "hermit"))]
 #[test]
 fn allocate() {
 	let mut freelist = FreeList::new();
@@ -265,6 +267,7 @@ fn allocate() {
 	}
 }
 
+#[cfg(not(target_os = "hermit"))]
 #[test]
 fn deallocate() {
 	let mut freelist = FreeList::new();
