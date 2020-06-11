@@ -1,4 +1,6 @@
 /// Common functionality for all integration tests
+/// Note: If you encounter `error[E0463]: can't find crate for 'test'`, rememmber to add
+/// `harness = false` to the [[test]] section of cargo.toml
 pub extern crate alloc;
 pub use alloc::string::String;
 pub use alloc::vec::Vec;

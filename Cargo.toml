@@ -32,6 +32,10 @@ harness = false
 name = "basic_math"
 harness = false
 
+[[test]]
+name = "measure_startup_time"
+harness = false
+
 [features]
 default = ["pci", "acpi"]
 vga = []
