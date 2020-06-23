@@ -111,6 +111,12 @@ pub fn test_runner(tests: &[&dyn Fn()]) {
 	sys_exit(0);
 }
 
+#[test_case]
+fn trivial_test() {
+	println!("Test test test");
+	panic!("Test called");
+}
+
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
 	println!("[failed]\n");
 	println!("Error: {}\n", info);
@@ -281,11 +287,10 @@ extern "C" fn initd(_arg: usize) {
 	#[cfg(not(test))]
 	unsafe {
 		// And finally start the application.
-		runtime_entry(argc, argv, environ);
+		runtime_entry(argc, argv, environ)
 	}
 	#[cfg(test)]
 	test_main();
-	loop {}
 }
 
 /// Entry Point of HermitCore for the Boot Processor

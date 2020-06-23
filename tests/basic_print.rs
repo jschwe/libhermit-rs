@@ -1,3 +1,4 @@
+#![feature(test)]
 #![no_std]
 #![no_main]
 //#![test_runner(hermit::test_runner)]

@@ -11,6 +11,8 @@ use crate::boot_processor_main;
 use crate::config::KERNEL_STACK_SIZE;
 use crate::x86::controlregs::*;
 
+const BOOT_IMAGE_MAGIC_NUMBER: u32 = 0xC0DE_CAFEu32;
+
 unsafe fn cr0_enable_caching() {
 	let mut cr0 = cr0();
 
@@ -20,6 +22,7 @@ unsafe fn cr0_enable_caching() {
 	cr0_write(cr0);
 }
 
+//#[cfg(test)]
 #[inline(never)]
 #[no_mangle]
 #[naked]
@@ -33,6 +36,7 @@ pub unsafe extern "C" fn _start(boot_info: &'static mut BootInfo) -> ! {
 }
 
 unsafe fn pre_init(boot_info: &'static mut BootInfo) -> ! {
+	assert_eq!(boot_info.magic_number, BOOT_IMAGE_MAGIC_NUMBER);
 	//
 	// CR0 CONFIGURATION
 	//
