@@ -422,14 +422,16 @@ impl CpuFrequency {
 
 	unsafe fn detect(&mut self) {
 		let cpuid = CpuId::new();
-		self.detect_from_cpuid(&cpuid)
-			.or_else(|_e| self.detect_from_cpuid_tsc_info(&cpuid))
-			.or_else(|_e| self.detect_from_cpuid_hypervisor_info(&cpuid))
-			.or_else(|_e| self.detect_from_hypervisor())
-			//.or_else(|_e| self.detect_from_cmdline())
-			.or_else(|_e| self.detect_from_cpuid_brand_string(&cpuid))
-			.or_else(|_e| self.measure_frequency())
-			.expect("Could not determine the processor frequency");
+		// self.detect_from_cpuid(&cpuid)
+		// 	.or_else(|_e| self.detect_from_cpuid_tsc_info(&cpuid))
+		// 	.or_else(|_e| self.detect_from_cpuid_hypervisor_info(&cpuid))
+		// 	.or_else(|_e| self.detect_from_hypervisor())
+		// 	//.or_else(|_e| self.detect_from_cmdline())
+		// 	.or_else(|_e| self.detect_from_cpuid_brand_string(&cpuid))
+		// 	.or_else(|_e| self.measure_frequency())
+		// 	.expect("Could not determine the processor frequency");
+		let res: core::result::Result<(), ()> = Err(());
+		res.expect("Could not determine the processor frequency");
 	}
 
 	fn get(&self) -> u16 {
