@@ -430,6 +430,7 @@ impl CpuFrequency {
 		// 	.or_else(|_e| self.detect_from_cpuid_brand_string(&cpuid))
 		// 	.or_else(|_e| self.measure_frequency())
 		// 	.expect("Could not determine the processor frequency");
+		println!("Testy test");
 		let res: core::result::Result<(), ()> = Err(());
 		res.expect("Could not determine the processor frequency");
 	}
