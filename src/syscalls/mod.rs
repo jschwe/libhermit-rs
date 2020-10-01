@@ -232,3 +232,15 @@ fn __sys_stat(file: *const u8, st: usize) -> i32 {
 pub extern "C" fn sys_stat(file: *const u8, st: usize) -> i32 {
 	kernel_function!(__sys_stat(file, st))
 }
+
+#[no_mangle]
+pub extern "C" fn sys_environment_is_uhyve() -> u32 {
+	kernel_function!(__sys_environment_is_uhyve())
+}
+
+fn __sys_environment_is_uhyve() -> u32 {
+	match crate::environment::is_uhyve() {
+		true => 1,
+		false => 0,
+	}
+}
