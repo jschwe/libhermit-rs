@@ -47,6 +47,7 @@ acpi = []
 [dev-dependencies]
 x86 = { version = "0.34.*", default-features = false }
 float-cmp = "0.8.0"
+qemu-exit = "1.0"
 
 [dependencies.scopeguard]
 version = "1.1"

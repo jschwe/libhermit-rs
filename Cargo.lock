@@ -139,6 +139,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "qemu-exit"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b73ae13954572c7ca0ec48ba9fe6a59c0392066eba62f8cb384ffd5addf538c5"
+
+[[package]]
 name = "quote"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -178,6 +184,7 @@ dependencies = [
  "num",
  "num-derive",
  "num-traits",
+ "qemu-exit",
  "scopeguard",
  "x86",
 ]

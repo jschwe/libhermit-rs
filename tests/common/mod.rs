@@ -8,15 +8,12 @@ pub use alloc::vec::Vec;
 
 pub use hermit::{print, println};
 
+use qemu_exit::QEMUExit;
+
+const QemuExitCodeSucess: u32 = 0x10;
+
 //use std::borrow::Cow;
 //use std::fmt;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(u32)]
-pub enum QemuExitCode {
-	Success = 0x10,
-	Failed = 0x11,
-}
 
 //From libtest types.rs-----------------------------------------------------
 /*
@@ -207,23 +204,17 @@ pub fn exit(failure: bool) -> ! {
 			false => hermit::sys_exit(0),
 		}
 	} else {
+		/// Debug exit from qemu with a returncode
+		#[cfg(target_arch = "aarch64")]
+		let qemu_exit_handle = qemu_exit::AArch64::new();
+		/// '-device', 'isa-debug-exit,iobase=0xf4,iosize=0x04' must be passed to qemu for this to work
+		#[cfg(target_arch = "x86_64")]
+		let qemu_exit_handle = qemu_exit::X86::new(0xf4, QemuExitCodeSucess);
 		match failure {
-			true => exit_qemu(QemuExitCode::Failed),
-			false => exit_qemu(QemuExitCode::Success),
+			true => qemu_exit_handle.exit_failure(),
+			false => qemu_exit_handle.exit_success(),
 		}
 	}
-}
-
-/// Debug exit from qemu with a returncode
-/// '-device', 'isa-debug-exit,iobase=0xf4,iosize=0x04' must be passed to qemu for this to work
-pub fn exit_qemu(exit_code: QemuExitCode) -> ! {
-	use x86::io::outl;
-
-	unsafe {
-		outl(0xf4, exit_code as u32);
-	}
-	println!("Warning - Failed to debug exit qemu - exiting via sys_exit()");
-	hermit::sys_exit(0) //sys_exit exitcode on qemu gets silently dropped
 }
 
 // ToDo: Maybe we could add a hard limit on the length of `s` to make this slightly safer?
