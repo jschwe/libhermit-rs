@@ -83,12 +83,19 @@ jobs:
           echo "C:\Program Files\nasm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "in Program Files"
           Test-Path "C:\Program Files\qemu"
+          Test-Path "C:\Program Files\Qemu"
           echo "%ProgramData%"
           Test-Path "%ProgramData%\qemu"
+          Test-Path "%ProgramData%\Qemu"
           echo "C:\ProgramData\chocolatey\qemu"
           Test-Path "C:\ProgramData\chocolatey\qemu"
-          echo "Search on D "
-          Get-Childitem –Path D:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
+          Test-Path "C:\ProgramData\chocolatey\Qemu"
+          echo "C:\Program Files (x86)\qemu"
+          Test-Path "C:\Program Files (x86)\qemu"
+          Test-Path "C:\Program Files (x86)\Qemu"
+          Test-Path "C:\ProgramData\chocolatey\lib\Qemu\"
+          echo "Search on  %ProgramData%"
+          Get-Childitem –Path %ProgramData% -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
