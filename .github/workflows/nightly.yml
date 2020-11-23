@@ -7,6 +7,7 @@ on:
       - master
       - staging
       - trying
+      - testwindowsci
 
 jobs:
   build:
