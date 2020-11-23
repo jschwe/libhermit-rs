@@ -87,10 +87,11 @@ jobs:
           Test-Path "%ProgramData%\qemu"
           echo "C:\ProgramData\chocolatey\qemu"
           Test-Path "C:\ProgramData\chocolatey\qemu"
-          echo "Search on C "
-          Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
           echo "Search on D "
           Get-Childitem –Path D:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
+
+        # echo "Search on C "
+        # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
 
         if: ${{ matrix.os == 'windows-latest' }}
       # - name: Building dev version
