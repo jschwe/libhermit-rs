@@ -21,18 +21,18 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
         rust: [nightly]
         include:
-          - os: macOS-latest
-            rust: 'nightly'
-            components: 'rust-src, llvm-tools-preview'
-            targets: 'x86_64-apple-darwin'
+          # - os: macOS-latest
+          #   rust: 'nightly'
+          #   components: 'rust-src, llvm-tools-preview'
+          #   targets: 'x86_64-apple-darwin'
           - os: windows-latest
             rust: 'nightly'
             components: 'rust-src, llvm-tools-preview'
             targets: 'x86_64-pc-windows-msvc'
-          - os: ubuntu-latest
-            rust: 'nightly'
-            components: 'rust-src, llvm-tools-preview'
-            targets: 'x86_64-unknown-linux-gnu'
+          # - os: ubuntu-latest
+          #   rust: 'nightly'
+          #   components: 'rust-src, llvm-tools-preview'
+          #   targets: 'x86_64-unknown-linux-gnu'
 
 
     steps:
@@ -59,10 +59,10 @@ jobs:
           path: 'libhermit-rs'
       - name: Check Cargo availability
         run: cargo --version
-      - name: Cargo Test libhermit-rs (Unittests on Host)
-        run: cargo test --lib --target x86_64-unknown-linux-gnu
-        working-directory: libhermit-rs
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+      # - name: Cargo Test libhermit-rs (Unittests on Host)
+      #   run: cargo test --lib --target x86_64-unknown-linux-gnu
+      #   working-directory: libhermit-rs
+      #   if: ${{ matrix.os == 'ubuntu-latest' }}
       - name: Install qemu/nasm (apt)
         run: sudo apt-get update --fix-missing && sudo apt-get install qemu-system-x86 nasm
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -80,6 +80,8 @@ jobs:
         run: |
           echo "C:\Program Files\qemu" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\Program Files\nasm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          cd "C:\Program Files\qemu"
+          ls
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Building dev version
         run:
