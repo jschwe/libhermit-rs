@@ -84,7 +84,7 @@ jobs:
           Test-Path "C:\Program Files\qemu"
           echo "%ProgramData%"
           Test-Path "%ProgramData%\qemu"
-          echo ""
+          echo "C:\ProgramData\chocolatey\qemu"
           Test-Path "C:\ProgramData\chocolatey\qemu"      
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Building dev version
