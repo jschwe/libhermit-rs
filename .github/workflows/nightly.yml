@@ -79,16 +79,6 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Set path to qemu/nasm (Windows)
         run: |
-          echo "C:\Program Files\qemu" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "C:\Program Files\nasm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "C:\Program Files (x86)\qemu"
-          Test-Path "C:\Program Files (x86)\qemu"
-          echo "Search on  C:\Program Files (x86)\qemu"
-          Get-Childitem –Path "C:\Program Files (x86)\qemu" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
-          echo "Search on  C:\Program Files (x86)\Qemu"
-          Get-Childitem –Path "C:\Program Files (x86)\Qemu" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
-          echo "Search on  C:\ProgramData\chocolatey\lib\Qemu\"
-          Get-Childitem –Path "C:\ProgramData\chocolatey\lib\Qemu\" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
           & "C:\Program Files (x86)\qemu\qemu-system-x86_64.exe" -version
           & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86_64\qemu-system-x86_64.exe" -version
           & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86\qemu-system-x86_64.exe" -version
