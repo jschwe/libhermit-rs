@@ -91,9 +91,11 @@ jobs:
           Get-Childitem –Path "C:\Program Files (x86)\Qemu" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
           echo "Search on  C:\ProgramData\chocolatey\lib\Qemu\"
           Get-Childitem –Path "C:\ProgramData\chocolatey\lib\Qemu\" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
-          "C:\Program Files (x86)\qemu\qemu-system-x86_64.exe" -version
-          "C:\Program Files (x86)\Qemu\qemu-system-x86_64.exe" -version
-          "C:\ProgramData\chocolatey\lib\Qemu\qemu-system-x86_64.exe" -version
+          & "C:\Program Files (x86)\qemu\qemu-system-x86_64.exe" -version
+          & "C:\Program Files (x86)\Qemu\qemu-system-x86_64.exe" -version
+          & "C:\ProgramData\chocolatey\lib\Qemu\qemu-system-x86_64.exe" -version
+          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86_64\qemu-system-x86_64.exe" -version
+          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86\qemu-system-x86_64.exe" -version
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
