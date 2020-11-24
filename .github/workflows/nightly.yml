@@ -90,8 +90,9 @@ jobs:
         continue-on-error: true
       - name: Test (Windows)
         run: |
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86_64\qemu-system-x86_64.exe" -version
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86\qemu-system-x86_64.exe" -version
+          cd "C:\Program Files (x86)\qemu"
+          ls
+          .\qemu-system-x86_64.exe -version
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
@@ -100,8 +101,9 @@ jobs:
         continue-on-error: true
       - name: Test (Windows)
         run: |
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86_64\qemu-system-x86_64.exe" "-h"
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86\qemu-system-x86_64.exe" "-h"
+          cd "C:\Program Files\qemu"
+          ls
+          .\qemu-system-x86_64.exe -version
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
