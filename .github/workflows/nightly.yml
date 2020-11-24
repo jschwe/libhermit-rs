@@ -72,9 +72,6 @@ jobs:
         run: |
           brew install qemu nasm
         if: ${{ matrix.os == 'macOS-latest' }}
-      - name: Install qemu/nasm (windows)
-        run: choco install qemu nasm
-        if: ${{ matrix.os == 'windows-latest' }}
       - name: Set path to qemu/nasm (Windows)
         run: |
           echo "trying program files x86"
