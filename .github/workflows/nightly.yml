@@ -92,23 +92,13 @@ jobs:
         run: |
           cd "C:\Program Files (x86)\qemu"
           ls
-          .\qemu-system-x86_64.exe -version
+          .\qemu-system-x86_64w.exe -version
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
 
         if: ${{ matrix.os == 'windows-latest' }}
         continue-on-error: true
-      - name: Test (Windows)
-        run: |
-          cd "C:\Program Files\qemu"
-          ls
-          .\qemu-system-x86_64.exe -version
-
-        # echo "Search on C "
-        # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
-
-        if: ${{ matrix.os == 'windows-latest' }}
       # - name: Building dev version
       #   run:
       #     cargo build -Z build-std=std,core,alloc,panic_abort --target x86_64-unknown-hermit
