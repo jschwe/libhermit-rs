@@ -83,8 +83,6 @@ jobs:
           echo "C:\Program Files\nasm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\Program Files (x86)\qemu"
           Test-Path "C:\Program Files (x86)\qemu"
-          Test-Path "C:\Program Files (x86)\Qemu"
-          Test-Path "C:\ProgramData\chocolatey\lib\Qemu\"
           echo "Search on  C:\Program Files (x86)\qemu"
           Get-Childitem –Path "C:\Program Files (x86)\qemu" -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
           echo "Search on  C:\Program Files (x86)\Qemu"
