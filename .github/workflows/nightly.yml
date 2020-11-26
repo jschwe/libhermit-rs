@@ -82,6 +82,12 @@ jobs:
           echo "C:\\Program Files (x86)\\qemu" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\\Program Files\\nasm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         if: ${{ matrix.os == 'windows-latest' }}
+      - name: Set path to qemu/nasm (Windows git bash)
+        run: |
+          echo "/c/Program Files (x86)/qemu" >> $GITHUB_PATH
+          echo "/c/Program Files/nasm" >> $GITHUB_PATH
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: bash
       - name: Building dev version
         run:
           cargo build -Z build-std=std,core,alloc,panic_abort --target x86_64-unknown-hermit
@@ -105,6 +111,22 @@ jobs:
           echo "LLVM Objcopy - $LLVM_OBJCOPY"
           Invoke-Expression "$LLVM_OBJCOPY --strip-debug -O elf32-i386 target/x86_64-unknown-hermit-loader/debug/rusty-loader"
         if: ${{ matrix.os == 'windows-latest' }}
+      - name: test version
+        run: qemu-system-x86_64 -version
+        shell: bash
+        continue-on-error: true
+      - name: test version powershell
+        run: qemu-system-x86_64 -version
+        continue-on-error: true
+      - name: test version
+        run: |
+          "/c/Program Files (x86)/qemu/qemu-system-x86_64" -version
+        shell: bash
+        continue-on-error: true
+      - name: test version powershell
+        run: |
+          & "C:\\Program Files (x86)\\qemu\\qemu-system-x86_64" -version
+        continue-on-error: true
       - name: Test dev version
         run:
           qemu-system-x86_64 -display none -smp 1 -m 128M -serial stdio -kernel loader/target/x86_64-unknown-hermit-loader/debug/rusty-loader -initrd target/x86_64-unknown-hermit/debug/rusty_demo -cpu qemu64,apic,fsgsbase,rdtscp,xsave,fxsr
