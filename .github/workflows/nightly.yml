@@ -74,14 +74,15 @@ jobs:
         if: ${{ matrix.os == 'macOS-latest' }}
       - name: test branches
         shell: bash
-        run:  "C:\Program Files (x86)\qemu\qemu-system-x86_64.exe" -version
+        run: |
+          "C:\\Program Files (x86)\\qemu\\qemu-system-x86_64.exe" -version
       - name: Set path to qemu/nasm (Windows)
         run: |
           echo "trying program files x86"
-          & "C:\Program Files (x86)\qemu\qemu-system-x86_64.exe" -version
+          & "C:\\Program Files (x86)\\qemu\\qemu-system-x86_64.exe" -version
           echo "trying AndroidSDK"
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86_64\qemu-system-x86_64.exe" -version
-          & "C:\Microsoft\AndroidSDK\25\tools\qemu\windows-x86\qemu-system-x86_64.exe" -version
+          & "C:\\Microsoft\\AndroidSDK\\25\tools\\qemu\\windows-x86_64\\qemu-system-x86_64.exe" -version
+          & "C:\\Microsoft\\AndroidSDK\\25\\tools\\qemu\\windows-x86\\qemu-system-x86_64.exe" -version
 
         # echo "Search on C "
         # Get-Childitem –Path C:\ -Recurse -Include qemu-system-x86_64.exe -ErrorAction SilentlyContinue
