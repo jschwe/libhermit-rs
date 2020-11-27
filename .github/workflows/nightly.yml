@@ -75,7 +75,10 @@ jobs:
       - name: Install qemu/nasm (windows)
         uses: crazy-max/ghaction-chocolatey@v1
         with:
-          args: install qemu nasm
+          args: install nasm
+        if: ${{ matrix.os == 'windows-latest' }}
+      - name: Install qemu windows (test)
+        run: choco install qemu --version=2020.08.14
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Set path to qemu/nasm (Windows)
         run: |
@@ -86,6 +89,14 @@ jobs:
         run: |
           echo "/c/Program Files (x86)/qemu" >> $GITHUB_PATH
           echo "/c/Program Files/nasm" >> $GITHUB_PATH
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: bash
+      - name:  test path bash
+        run: |
+          echo "Github Path:"
+          echo "$GITHUB_PATH"
+          nasm -v
+          qemu-system-x86_64 -version
         if: ${{ matrix.os == 'windows-latest' }}
         shell: bash
       - name: Building dev version
