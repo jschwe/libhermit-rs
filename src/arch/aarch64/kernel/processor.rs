@@ -5,7 +5,7 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-use core::sync::atomic::spin_loop_hint;
+use core::hint::spin_loop;
 
 extern "C" {
 	static mut cpu_freq: u32;
@@ -84,6 +84,6 @@ pub fn get_timestamp() -> u64 {
 pub fn udelay(usecs: u64) {
 	let end = get_timestamp() + get_frequency() as u64 * usecs;
 	while get_timestamp() < end {
-		spin_loop_hint();
+		spin_loop();
 	}
 }
