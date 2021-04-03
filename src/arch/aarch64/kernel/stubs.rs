@@ -1,3 +1,5 @@
+use crate::scheduler::CoreId;
+
 // Copyright (c) 2018 Colin Finck, RWTH Aachen University
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
@@ -10,9 +12,10 @@ pub fn set_oneshot_timer(wakeup_time: Option<u64>) {
 	debug!("set_oneshot_timer stub");
 }
 
-pub fn wakeup_core(core_to_wakeup: usize) {
+pub fn wakeup_core(core_to_wakeup: CoreId) {
 	// TODO
 	debug!("wakeup_core stub");
+	unimplemented!()
 }
 
 #[no_mangle]
