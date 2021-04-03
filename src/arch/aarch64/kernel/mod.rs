@@ -104,8 +104,8 @@ pub fn get_mbinfo() -> usize {
 	unsafe { volatile_load(&BOOT_INFO.mb_info) as usize }
 }
 
-pub fn get_processor_count() -> usize {
-	unsafe { volatile_load(&BOOT_INFO.cpu_online) as usize }
+pub fn get_processor_count() -> u32 {
+	unsafe { volatile_load(&BOOT_INFO.cpu_online) }
 }
 
 /// Whether HermitCore is running under the "uhyve" hypervisor.
