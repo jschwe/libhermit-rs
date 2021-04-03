@@ -23,7 +23,7 @@ pub use crate::arch::aarch64::kernel::systemtime::get_boot_time;
 use crate::environment;
 use crate::kernel_message_buffer;
 use crate::synch::spinlock::Spinlock;
-use core::ptr;
+use core::{intrinsics::volatile_load, ptr};
 
 const SERIAL_PORT_BAUDRATE: u32 = 115200;
 
