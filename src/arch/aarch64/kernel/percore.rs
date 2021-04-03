@@ -81,3 +81,11 @@ pub fn set_core_scheduler(scheduler: *mut PerCoreScheduler) {
 pub fn init() {
 	// TODO: Implement!
 }
+
+#[inline(always)]
+pub fn get_kernel_stack() -> u64 {
+	// FIXME: This is just copy pasted from x86_64
+	// Done like this for now to eliminate duplicate warnings do to missing function for every macro that uses this
+	unimplemented!()
+	//unsafe { PERCORE.kernel_stack.get() }
+}
