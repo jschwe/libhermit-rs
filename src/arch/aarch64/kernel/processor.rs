@@ -40,7 +40,7 @@ pub fn msb(value: u64) -> Option<u64> {
 		let ret: u64;
 		let u64_bits = 64;
 		unsafe {
-			asm!("clz $0, $1; sub $0, $2, $0" : "=r"(ret) : "r"(value), "r"(u64_bits - 1) : "cc" : "volatile");
+			llvm_asm!("clz $0, $1; sub $0, $2, $0" : "=r"(ret) : "r"(value), "r"(u64_bits - 1) : "cc" : "volatile");
 		}
 		Some(ret)
 	} else {
@@ -51,7 +51,7 @@ pub fn msb(value: u64) -> Option<u64> {
 /// The halt function stops the processor until the next interrupt arrives
 pub fn halt() {
 	unsafe {
-		asm!("wfi" :::: "volatile");
+		llvm_asm!("wfi" :::: "volatile");
 	}
 }
 

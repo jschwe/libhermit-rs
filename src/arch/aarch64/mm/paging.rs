@@ -218,7 +218,7 @@ impl<S: PageSize> Page<S> {
 		// We use "vale1is" instead of "vae1is" to always flush the last table level only (performance optimization).
 		// The "is" attribute broadcasts the TLB flush to all cores, so we don't need an IPI (unlike x86_64).
 		unsafe {
-			asm!("dsb ishst; tlbi vale1is, $0; dsb ish; isb" :: "r"(self.virtual_address) : "memory" : "volatile");
+			llvm_asm!("dsb ishst; tlbi vale1is, $0; dsb ish; isb" :: "r"(self.virtual_address) : "memory" : "volatile");
 		}
 	}
 
