@@ -11,6 +11,9 @@ pub mod virtualmem;
 
 pub use self::physicalmem::init_page_tables;
 
+pub use aarch64::paging::PhysAddr;
+pub use aarch64::paging::VirtAddr;
+
 pub fn init() {
 	physicalmem::init();
 	virtualmem::init();
