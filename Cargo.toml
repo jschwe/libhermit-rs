@@ -44,7 +44,6 @@ smp = []
 fsgsbase = []
 
 [dev-dependencies]
-x86 = { version = "0.37.*", default-features = false }
 float-cmp = "0.8.0"
 
 [dependencies.scopeguard]
