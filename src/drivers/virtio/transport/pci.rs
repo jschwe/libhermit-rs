@@ -44,7 +44,7 @@ use crate::drivers::virtio::depr::virtio_fs;
 #[repr(u16)]
 pub enum DevId {
 	INVALID = 0x0,
-	VIRTIO_TRANS_DEV_ID_NET = 0x0fff,
+	VIRTIO_TRANS_DEV_ID_NET = 0x1000,
 	VIRTIO_TRANS_DEV_ID_BLK = 0x1001,
 	VIRTIO_TRANS_DEV_ID_MEM_BALL = 0x1002,
 	VIRTIO_TRANS_DEV_ID_CONS = 0x1003,
@@ -58,7 +58,7 @@ pub enum DevId {
 impl From<DevId> for u16 {
 	fn from(val: DevId) -> u16 {
 		match val {
-			DevId::VIRTIO_TRANS_DEV_ID_NET => 0x0fff,
+			DevId::VIRTIO_TRANS_DEV_ID_NET => 0x1000,
 			DevId::VIRTIO_TRANS_DEV_ID_BLK => 0x1001,
 			DevId::VIRTIO_TRANS_DEV_ID_MEM_BALL => 0x1002,
 			DevId::VIRTIO_TRANS_DEV_ID_CONS => 0x1003,
@@ -75,7 +75,7 @@ impl From<DevId> for u16 {
 impl From<u16> for DevId {
 	fn from(val: u16) -> Self {
 		match val {
-			0x0fff => DevId::VIRTIO_TRANS_DEV_ID_NET,
+			0x1000 => DevId::VIRTIO_TRANS_DEV_ID_NET,
 			0x1001 => DevId::VIRTIO_TRANS_DEV_ID_BLK,
 			0x1002 => DevId::VIRTIO_TRANS_DEV_ID_MEM_BALL,
 			0x1003 => DevId::VIRTIO_TRANS_DEV_ID_CONS,
@@ -486,7 +486,7 @@ impl ComCfg {
 	}
 
 	/// Sets the device status field to FAILED.
-	/// A driver MUST NOT initalize and use the device any further after this.
+	/// A driver MUST NOT initialize and use the device any further after this.
 	/// A driver MAY use the device again after a proper reset of the device.
 	pub fn set_failed(&mut self) {
 		self.com_cfg.device_status = u8::from(device::Status::FAILED);
@@ -923,7 +923,7 @@ impl ShMemCfg {
 		let virt_addr_raw = cap.bar.mem_addr + offset;
 		let raw_ptr = usize::from(virt_addr_raw) as *mut u8;
 
-		// Zero initalize shared memory area
+		// Zero initialize shared memory area
 		unsafe {
 			for i in 0..usize::from(length) {
 				*(raw_ptr.add(i)) = 0;
@@ -1027,9 +1027,9 @@ fn read_cap_raw(adapter: &PciAdapter, register: u32) -> PciCapRaw {
 		cfg_type: quadruple_word[3],
 		bar_index: quadruple_word[4],
 		id: quadruple_word[5],
-		// Unwrapping is okay here, as transformed array slice is always 2 * u8 long and initalized
+		// Unwrapping is okay here, as transformed array slice is always 2 * u8 long and initialized
 		padding: quadruple_word[6..8].try_into().unwrap(),
-		// Unwrapping is okay here, as transformed array slice is always 4 * u8 long and initalized
+		// Unwrapping is okay here, as transformed array slice is always 4 * u8 long and initialized
 		offset: u32::from_le_bytes(quadruple_word[8..12].try_into().unwrap()),
 		length: u32::from_le_bytes(quadruple_word[12..16].try_into().unwrap()),
 	}
@@ -1261,12 +1261,12 @@ pub fn init_device(adapter: &PciAdapter) -> Result<VirtioDriver, DriverError> {
 		}
 		DevId::VIRTIO_DEV_ID_NET => match VirtioNetDriver::init(adapter) {
 			Ok(virt_net_drv) => {
-				info!("Virtio network driver initalized with Virtio network device.");
+				info!("Virtio network driver initialized with Virtio network device.");
 				Ok(VirtioDriver::Network(virt_net_drv))
 			}
 			Err(virtio_error) => {
 				error!(
-					"Virtio networkd driver could not be initalized with device: {:x}",
+					"Virtio networkd driver could not be initialized with device: {:x}",
 					adapter.device_id
 				);
 				Err(DriverError::InitVirtioDevFail(virtio_error))
